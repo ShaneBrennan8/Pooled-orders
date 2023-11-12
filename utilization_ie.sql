@@ -3,8 +3,8 @@ WITH target_dates AS (
 		CASE
         WHEN DATE_TRUNC(DATE_SUB(CURRENT_DATE, INTERVAL 1 YEAR), WEEK) <= '2022-03-21'
 		THEN DATE('2022-03-21')
-		ELSE DATE_SUB(CURRENT_DATE, INTERVAL 3 MONTH) END                              AS start_date, /* Three months old date. Example, 24th March 2022 if today is 24th June 2022. */
-        DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY)                                         AS end_date /* Yesterday. Example, 23rd June 2022 if today is 24th June 2022. */
+		ELSE DATE_SUB(CURRENT_DATE, INTERVAL 3 MONTH) END                              AS start_date, 
+        DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY)                                         AS end_date /* Yesterday*/
 
 ), deliveries AS (
     SELECT DISTINCT
