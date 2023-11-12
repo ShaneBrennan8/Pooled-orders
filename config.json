@@ -1,0 +1,97 @@
+{
+   "schedule":"00 10 * * *",
+   "owner":"gareth.hughes@justeattakeaway.com",
+   "email":[
+      	"gareth.hughes@justeattakeaway.com",
+	"craig.osman@justeattakeaway.com"
+	   
+   ],
+   
+   "task_config":{
+        "datamarts_order_pooling_stg_0_reorder_info_ie.sql": {
+            "destination_dataset_table": "international_reporting.datamarts_order_pooling_stg_0_reorder_info_ie",
+            "write_disposition": "WRITE_TRUNCATE",
+            "dependencies": []
+        },
+        "datamarts_order_pooling_stg_1_delivery_staging_ie.sql": {
+            "destination_dataset_table": "international_reporting.datamarts_order_pooling_stg_1_delivery_staging_ie",
+            "write_disposition": "WRITE_TRUNCATE",
+            "dependencies": []
+        },
+        "datamarts_order_pooling_wk_0_zendesk_ticket_info_ie.sql": {
+            "destination_dataset_table": "international_reporting.datamarts_order_pooling_wk_0_zendesk_ticket_info_ie",
+            "write_disposition": "WRITE_TRUNCATE",
+            "dependencies": ["datamarts_order_pooling_stg_1_delivery_staging_ie"]
+        },	   
+        "order_pooling_summary_ie.sql": {
+            "destination_dataset_table": "international_reporting.order_pooling_summary_ie",
+            "write_disposition": "WRITE_TRUNCATE",
+            "dependencies": ["datamarts_order_pooling_stg_0_reorder_info_ie",
+                             "datamarts_order_pooling_stg_1_delivery_staging_ie"]
+        },	
+      "order_pooling_refunds_time_periods_order_counts_ie.sql":{
+         "destination_dataset_table":"international_reporting.order_pooling_refunds_time_periods_order_counts_ie",
+         "write_disposition":"WRITE_TRUNCATE",
+		  "dependencies":[]
+      },
+	   
+        "order_pooling_refunds_summary_ie.sql": {
+            "destination_dataset_table": "international_reporting.order_pooling_refunds_summary_ie",
+            "write_disposition": "WRITE_TRUNCATE",
+            "dependencies": [
+                "order_pooling_refunds_time_periods_order_counts_ie"
+            ]
+        },
+
+      "order_pooling_delco_orders_counts_ie.sql":{
+         "destination_dataset_table":"international_reporting.order_pooling_delco_orders_count_ie",
+         "write_disposition":"WRITE_TRUNCATE",
+         "dependencies":[
+            "order_pooling_refunds_time_periods_order_counts_ie"
+         ]
+      },
+        "utilization_ie.sql": {
+            "destination_dataset_table": "international_reporting.utilization_ie",
+            "write_disposition": "WRITE_TRUNCATE",
+            "dependencies": [
+                "order_pooling_summary_ie"
+            ]
+        }	   
+   },
+   "orchestrator":{
+      "dependencies":[
+         {
+            "type":"bigquery",
+            "name":"just-data-warehouse.delco_analytics_team_dwh.bridge_courier_multi_collect_delivery#"
+         },
+         {
+            "type":"bigquery",
+            "name":"just-data-warehouse.delco_analytics_team_dwh.bridge_delivery_details_blacklisted_couriers#"
+         },
+         {
+            "type":"bigquery",
+            "name":"just-data-warehouse.delco_analytics_team_dwh.dim_courier_delivery_zones#"
+         },
+         {
+            "type":"bigquery",
+            "name":"just-data-warehouse.delco_analytics_team_dwh.dim_resto#"
+         },
+         {
+            "type":"bigquery",
+            "name":"just-data-warehouse.delco_analytics_team_dwh.fact_deliveries#"
+         },
+         {
+            "type":"bigquery",
+            "name":"just-data-warehouse.delco_analytics_team_dwh.fact_order_financial_metrics#"
+         },
+         {
+            "type":"bigquery",
+            "name":"just-data-warehouse.delco_analytics_team_dwh.fact_order_net_adjustments#"
+         },
+         {
+            "type":"bigquery",
+            "name":"just-data-warehouse.delco_analytics_team_dwh.fact_orders_resto#"
+         }
+      ]
+   }
+}
