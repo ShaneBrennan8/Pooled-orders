@@ -1,9 +1,8 @@
 {
    "schedule":"00 10 * * *",
-   "owner":"gareth.hughes@justeattakeaway.com",
+   "owner":"shane.brennan@business.com",
    "email":[
-      	"gareth.hughes@justeattakeaway.com",
-	"craig.osman@justeattakeaway.com"
+      	"shane.brennan@business.com"
 	   
    ],
    
